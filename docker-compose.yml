@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  # Backend service
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - NODE_ENV=development
+
+  # Frontend service (Vite + React)
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:80"  # Exposing port 5173 for Vite development
+    environment:
+      - NODE_ENV=production
+    # Optionally, enable live reloading with volumes
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    # Optional: you can also enable a proxy to your backend API
+    # environment:
+    #   VITE_API_URL: "http://backend:5000" # If you want the frontend to call backend APIs
